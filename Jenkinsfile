@@ -7,7 +7,7 @@ node ('master'){
         git branch: 'devops', changelog: false, credentialsId: 'service-account', poll: false, url: 'http://github.com/app.git'
     }
     stage('DockerRegistry login') {
-        withDockerRegistry(credentialsId: 'impressico_DockerHub', url: 'https://index.docker.io/v1/') {}
+        withDockerRegistry(credentialsId: 'DockerHub', url: 'https://index.docker.io/v1/') {}
     }
     stage("Docker build and push") {
         sh """
@@ -20,7 +20,7 @@ node ('master'){
     }
     sshagent(["${sshAgentKeyName}"]) {
         stage ('commands in SSH Agent ') {
-            withDockerRegistry(credentialsId: 'impressico_DockerHub', url: 'https://index.docker.io/v1/') {}
+            withDockerRegistry(credentialsId: 'DockerHub', url: 'https://index.docker.io/v1/') {}
             stage("Docker images deploying") {
                 sh """
                 echo '#!/bin/bash
